@@ -1,6 +1,7 @@
 package solution;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class Q94 {
         r1.right = r2;
         List<Integer> result = inorderTraversal(root);
         System.out.println(result);
+        System.out.println(inorderIter(root));
     }
 
     private static List<Integer> inorderTraversal(TreeNode root) {
@@ -42,6 +44,24 @@ public class Q94 {
         result.addAll(inorderTraversal(root.left));
         result.add(root.val);
         result.addAll(inorderTraversal(root.right));
+        return result;
+    }
+
+    private static List<Integer> inorderIter(TreeNode root) {
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        TreeNode rootNode = root;
+        List<Integer> result = new ArrayList<>();
+        while (rootNode != null || !stack.isEmpty()) {
+            while (rootNode != null) {
+                stack.addFirst(rootNode);
+                rootNode = rootNode.left;
+            }
+            if (!stack.isEmpty()) {
+                TreeNode first = stack.removeFirst();
+                result.add(first.val);
+                rootNode = first.right;
+            }
+        }
         return result;
     }
 }
